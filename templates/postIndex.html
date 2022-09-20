@@ -67,7 +67,7 @@
 
     <script>
         //카테고리, 제목, 본문 입력값 db에 저장
-        function postIndex() {
+        function postIndexCreate() {
             let category = $('#category').val()
             let title = $('#title').val()
             let content = $('#content').val()
@@ -147,7 +147,7 @@
         <label for="content" class="form-label">Contents</label>
         <textarea class="form-control" id="content" rows="10" placeholder="본문을 입력하세요."></textarea>
 
-        <button onclick="postIndex()" type="button" class="btn btn-dark">저장</button>
+        <button onclick="postIndexCreate()" type="button" class="btn btn-dark">저장</button>
     </div>
 
 </div>
