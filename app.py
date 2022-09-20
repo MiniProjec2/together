@@ -10,6 +10,8 @@ app = Flask(__name__)
 client = MongoClient('mongodb+srv://text:sparta@cluster0.cvfqh2o.mongodb.net/cluster0?retryWrites=true&w=majority', tlsCAFile=certifi.where())
 db = client.dbsparta
 
+SECRET_KEY = 'SPARTA'
+
 ## HTML을 주는 부분
 @app.route('/')
 def home():
