@@ -9,6 +9,17 @@ app = Flask(__name__)
 client = MongoClient('mongodb+srv://text:sparta@cluster0.cvfqh2o.mongodb.net/cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
+# write 주석
+@app.route('/write', methods=['POST'])
+def write():
+    comment_receive = request.form['comment_give']
+    doc = {
+        'comment': comment_receive
+    }
+    db.write.insert_one(doc)
+    return jsonify({'msg': '저장 완료!'})
+# write 주석 끝
+
 ## HTML을 주는 부분
 @app.route('/')
 def home():
