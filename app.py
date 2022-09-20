@@ -14,11 +14,20 @@ db = client.dbsparta
 def home():
     return render_template('index.html')
 
-@app.route('/')
+@app.route('/login')
 def login():
-    return render_template('login.html')
-@app.route('/login/api')
-def login_api():
+    textInfo = [
+        {"text": "아이디",
+         "id": "user_id"
+         },
+        {"text": "비밀번호",
+         "id": "user_pw"
+         },
+    ]
+    return render_template('login.html', textInfo=textInfo)
+
+@app.route('/login/api', methods=['POST'])
+def api_login():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     
