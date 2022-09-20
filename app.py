@@ -48,9 +48,9 @@ def api_login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
-@app.route('/category/create')
-def postIndex():
-    return render_template('postIndex.html')
+@app.route('/generic', methods=['GET'])
+def detail():
+    return render_template('generic.html')
 
 @app.route('/join')
 def join():
@@ -98,6 +98,9 @@ def userRegister():
 
     return jsonify({'msg': '저장 완료!'})
 
+@app.route('/category/create')
+def postIndex():
+    return render_template('postIndex.html')
 
 @app.route("/category/create", methods=["POST"])
 def postIndexCreate():
