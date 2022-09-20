@@ -52,6 +52,8 @@ def api_login():
 def detail():
     return render_template('generic.html')
 
+# -----------------------------
+# 회원가입 페이지(join.html)을 불러올 때 textInfo Array에 Input Text 값을 넣어서 보내줌
 @app.route('/join')
 def join():
     textInfo = [
@@ -73,12 +75,21 @@ def join():
     ]
     return render_template('join.html', textInfo=textInfo)
 
+# 아이디 중복 여부 체크, 입력 받은 아이디 값을 가져와 db에 같은 값이 있는지 확인하여 boolean 값으로 돌려줌
 @app.route('/join/id_check', methods=["POST"])
-def user_id_check():
+def userIdCheck():
     idReceive = request.form['id_give']
-    exists = bool(db.users.find_one({"id": idReceive}))
+    exists = bool(db.user.find_one({"id": idReceive}))
     return jsonify({'result:': 'success', 'exists': exists})
 
+# 닉네임 중복 여부 체크, 위와 동일
+@app.route('/join/nickname_check', methods=["POST"])
+def userNicknameCheck():
+    nicknameReceive = request.form['nickname_give']
+    exists = bool(db.user.find_one({"nickname": nicknameReceive}))
+    return jsonify({'result:': 'success', 'exists': exists})
+
+# 회원 정보를 받아와서 비밀번호는 해쉬맵으로 암호화한 뒤에 db에 저장
 @app.route('/join', methods=["POST"])
 def userRegister():
     idReceive = request.form['id_give']
@@ -94,7 +105,7 @@ def userRegister():
         'nickname': nicknameReceive,
         'git': gitReceive,
     }
-    db.movies.insert_one(doc)
+    db.user.insert_one(doc)
 
     return jsonify({'msg': '저장 완료!'})
 

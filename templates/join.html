@@ -41,6 +41,13 @@
 
         .id_check_class {
             display: none;
+            width: 50px;
+            padding-left: 10px;
+        }
+        .nickname_check_class {
+            display: none;
+            width: 50px;
+            padding-left: 10px;
         }
         .butns {
             display: flex;
@@ -53,6 +60,12 @@
     <script>
 
         function id_overlab_check() {
+
+            $('#user_id').change(function () {
+                $('#id_check_success').hide();
+                $('#id_overlab_button').show();
+                $('#user_id').attr("check_result", "fail")
+            })
             let id = $("#user_id").val()
             console.log(id)
             if (id == "") {
@@ -78,7 +91,47 @@
                         $("#user_id").focus()
                     } else {
                         alert('사용 가능한 아이디 입니다')
-                        $('#id_check_success').text.addClass("is-success")
+                        $('#user_id').attr('check_result', "true")
+                        $('#id_check_success').show();
+                        const btn1 = document.getElementById('id_overlab_button');
+                        btn1.style.display = 'none';
+                    }
+
+
+                }
+            });
+        }
+        function nickname_overlab_check() {
+
+            $('#user_nickname').change(function () {
+                $('#nickname_check_success').hide();
+                $('#nickname_overlab_button').show();
+                $('#user_nickname').attr("check_result", "fail")
+            })
+            let nickname = $('#user_nickname').val()
+            console.log(nickname)
+            if (nickname == "") {
+                alert('닉네임을 입력해주세요')
+                $("#user_nickname").focus()
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/join/nickname_check",
+                data: {
+                    nickname_give: nickname
+                },
+                success: function (response) {
+
+                    if (response["exists"]) {
+                        alert('이미 존재하는 닉네임 입니다')
+                        $("#user_nickname").focus()
+                    } else {
+                        alert('사용 가능한 닉네임 입니다')
+                        $('#user_nickname').attr('check_result', "true")
+                        $('#nickname_check_success').show();
+                        const btn1 = document.getElementById('nickname_overlab_button');
+                        btn1.style.display = 'none';
                     }
 
 
@@ -92,13 +145,27 @@
             let pwRe = $('#user_pw_re').val()
             let nickname = $('#user_nickname').val()
             let git = $('#user_git').val()
+            console.log($('#user_id').attr('check_result'))
 
-            if (pw != pwRe) {
-                alert("비밀번호가 일치하지 않습니다.")
-                return
+            if ($('#user_id').attr('check_result') == "fail") {
+                alert("아이디 중복 확인을 해주세요")
+                return;
+            }
+            else if (pw == "") {
+                alert("비밀번호를 입력해주세요")
+                return;
+            }
+            else if (!is_password(pw)) {
+                alert("비밀번호 형식을 확인해주세요")
+                return;
+            }
+            else if (pw != pwRe) {
+                alert("비밀번호가 일지하지 않습니다.")
+                return;
+
             } else if (nickname == '') {
                 alert("닉네임을 입력하세요")
-                return;
+                return;;
             }
 
             $.ajax({
@@ -135,25 +202,25 @@
                 {% set text = row.text %}
                 <div class="form-floating">
                 {% if id == 'user_id' %}
-                        <input id="{{ id }}" class="form-control" placeholder="Leave a comment here" check_result="fail"
-                               name="user_id">
-                        <label for="floatingTextarea2">{{ text }}</label>
-                        <button onclick="id_overlab_check()" type="button" class="btn btn-outline-dark" id="id_overlab_button"
-                                style="display:block;">중복 체크
-                        </button>
-                        <h3 id="id_check_success" class="id_check_class">체크 완료</h3><br>
+                    <input id="{{ id }}" class="form-control" placeholder="Leave a comment here" check_result="fail"
+                           name="user_id" class = "id_form">
+                    <label for="floatingTextarea2">{{ text }}</label>
+                    <button onclick="id_overlab_check()" type="button" class="btn btn-outline-dark" id="id_overlab_button"
+                            class = id_button>중복 체크
+                    </button>
+                    <p id="id_check_success" class="id_check_class" >체크 완료</p><br>
 
-                {% elif id == 'user_pw' %}
+                {% elif id == 'user_pw' or id == 'user_pw_re' %}
                     <input id="{{ id }}" class="form-control" placeholder="Leave a comment here" check_result="fail"
                                type="password">
                     <label for="floatingTextarea2">{{ text }}</label>
                 {% elif id == 'user_nickname' %}
                     <input id="{{ id }}" class="form-control" placeholder="Leave a comment here" check_result="fail"
-                           name="user_nickname"><label for="floatingTextarea2">{{ text }}</label>
-                    <button onclick="id_overlab_check()" type="button" class="btn btn-outline-dark" id="id_overlab_button"
-                            style="display:block;">중복 체크
+                           name="user_nickname" class = "nickname_form"><label for="floatingTextarea2">{{ text }}</label>
+                    <button onclick="nickname_overlab_check()" type="button" class="btn btn-outline-dark" id="nickname_overlab_button"
+                            class="nickname_button">중복 체크
                     </button>
-                    <h3 id="id_check_success" class="id_check_class">체크 완료</h3>
+                    <p id="nickname_check_success" class="nickname_check_class">체크 완료</p>
 
                 {% else %}
                     <input id="{{ id }}" class="form-control" placeholder="Leave a comment here"
