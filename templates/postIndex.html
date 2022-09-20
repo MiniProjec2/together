@@ -70,14 +70,14 @@
         function postIndex() {
             let category = $('#category').val()
             let title = $('#title').val()
-            let name = $('#name')
+            let content = $('#content').val()
 
             $.ajax({
                 type: 'POST',
                 url: '/category/post/create',
-                data: {categoryGive: category, titleGive: title, nameGive: name},
+                data: {categoryGive: category, titleGive: title, contentGive: content},
                 success: function (response) {
-                    alert(response['msg'])
+                    alert(response["msg"])
                     window.location.reload()
                 }
             });
@@ -129,7 +129,7 @@
 
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">제목</span>
-        <input type="text" class="form-control" placeholder="제목을 입력하세요." aria-label="Username"
+        <input id="title" type="text" class="form-control" placeholder="제목을 입력하세요." aria-label="Username"
                aria-describedby="basic-addon1">
     </div>
 
@@ -144,8 +144,8 @@
 <div class="wrap">
 
     <div class="contentsBox">
-        <label for="exampleFormControlTextarea1" class="form-label">Contents</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="본문을 입력하세요."></textarea>
+        <label for="content" class="form-label">Contents</label>
+        <textarea class="form-control" id="content" rows="10" placeholder="본문을 입력하세요."></textarea>
 
         <button onclick="postIndex()" type="button" class="btn btn-dark">저장</button>
     </div>
