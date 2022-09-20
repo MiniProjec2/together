@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>회원가입</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&amp;display=swap" rel="stylesheet">
+    <style>
+        .signup_box {
+
+            width: 95%;
+            max-width: 700px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            padding: 100px;
+        }
+
+        .form-floating {
+            width: 500px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .form-floating > button {
+            width: 130px;
+            margin-left: 10px;
+        }
+
+        .id_check_class {
+            display: none;
+        }
+        .butns {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+        }
+    </style>
+    <script>
+
+        function id_overlab_check() {
+            let id = $("#user_id").val()
+            console.log(id)
+            if (id == "") {
+                alert('아이디를 입력해주세요')
+                $("#user_id").focus()
+                return;
+            }
+            if (!is_nickname(id)) {
+                alert('아이디 형식을 확인해주세요')
+                $("#user_id").focus()
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/join/id_check",
+                data: {
+                    id_give: id
+                },
+                success: function (response) {
+
+                    if (response["exists"]) {
+                        alert('이미 존재하는 아이디 입니다')
+                        $("#user_id").focus()
+                    } else {
+                        alert('사용 가능한 아이디 입니다')
+                        $('#id_check_success').text.addClass("is-success")
+                    }
+
+
+                }
+            });
+        }
+
+        function sign_up() {
+            let id = $('#user_id').val()
+            let pw = $('#user_pw').val()
+            let pwRe = $('#user_pw_re').val()
+            let nickname = $('#user_nickname').val()
+            let git = $('#user_git').val()
+
+            if (pw != pwRe) {
+                alert("비밀번호가 일치하지 않습니다.")
+                return
+            } else if (nickname == '') {
+                alert("닉네임을 입력하세요")
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/join',
+                data: {id_give: id, pw_give: pw, nickname_give: nickname, git_give: git},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            });
+
+
+        }
+
+        function is_nickname(asValue) {
+            var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+            return regExp.test(asValue);
+        }
+
+        function is_password(asValue) {
+            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+            return regExp.test(asValue);
+        }
+
+    </script>
+</head>
+<body>
+    <div class="signup_box">
+        <h2>회원 가입</h2>
+        <div class="input_box">
+            {% for row in textInfo %}
+                {% set id = row.id %}
+                {% set text = row.text %}
+                <div class="form-floating">
+                {% if id == 'user_id' %}
+                        <input id="{{ id }}" class="form-control" placeholder="Leave a comment here" check_result="fail"
+                               name="user_id">
+                        <label for="floatingTextarea2">{{ text }}</label>
+                        <button onclick="id_overlab_check()" type="button" class="btn btn-outline-dark" id="id_overlab_button"
+                                style="display:block;">중복 체크
+                        </button>
+                        <h3 id="id_check_success" class="id_check_class">체크 완료</h3><br>
+
+                {% elif id == 'user_pw' %}
+                    <input id="{{ id }}" class="form-control" placeholder="Leave a comment here" check_result="fail"
+                               type="password">
+                    <label for="floatingTextarea2">{{ text }}</label>
+                {% elif id == 'user_nickname' %}
+                    <input id="{{ id }}" class="form-control" placeholder="Leave a comment here" check_result="fail"
+                           name="user_nickname"><label for="floatingTextarea2">{{ text }}</label>
+                    <button onclick="id_overlab_check()" type="button" class="btn btn-outline-dark" id="id_overlab_button"
+                            style="display:block;">중복 체크
+                    </button>
+                    <h3 id="id_check_success" class="id_check_class">체크 완료</h3>
+
+                {% else %}
+                    <input id="{{ id }}" class="form-control" placeholder="Leave a comment here"
+                           name=""><label for="floatingTextarea2">{{ text }}</label>
+                {% endif %}
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+
+        <div class="butns">
+            <button onclick="sign_up()" type="button" class="btn btn-outline-dark">회원가입</button>
+            <button onclick="close()" type="button" class="btn btn-outline-dark">닫기</button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
