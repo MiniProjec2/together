@@ -4,9 +4,10 @@ from datetime import datetime, timedelta
 
 import jwt
 import hashlib
+import certifi
 
 app = Flask(__name__)
-client = MongoClient('mongodb+srv://text:sparta@cluster0.cvfqh2o.mongodb.net/cluster0?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://text:sparta@cluster0.cvfqh2o.mongodb.net/cluster0?retryWrites=true&w=majority', tlsCAFile=certifi.where())
 db = client.dbsparta
 
 ## HTML을 주는 부분
