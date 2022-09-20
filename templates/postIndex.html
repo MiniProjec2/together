@@ -95,9 +95,9 @@
                         let name = rows[i]['name']
 
                         let temp_html = ` <div class="input-group mb-2">
-                                              <span class="input-group-text" id="basic-addon1">작성자</span>
-                                              <type class=border>{#name}</type>
-                                          </div>`
+                                            <span class="input-group-text" id="basic-addon1">작성자</span>
+                                            <type class=border>{{ name }}</type>
+                                        </div>`
                         $('#name').append(temp_html)
                     }
                 }
