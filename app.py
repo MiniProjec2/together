@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 from datetime import datetime, timedelta
+from bson.objectid import ObjectId
 
 import jwt
 import hashlib
@@ -53,6 +54,29 @@ def python():
     post_list = list(db.postIndex.find({'category': 'Python'}))
     return render_template('python.html', post_list = post_list)
 
+# write주석
+@app.route('/write/<keyword>')
+def write(keyword):
+    post = db.create.find_one({'_id':ObjectId(keyword)})
+    print(post)
+    return render_template('write.html', post=post)
+
+@app.route("/write/comment", methods=["POST"])
+def comment_post():
+    comment_receive = request.form['comment_give']
+    doc = {
+        'nickname':nickname_receive,
+        'comment': comment_receive
+    }
+    print(doc)
+    db.create.update(doc)
+    return jsonify({'msg': '코멘트 저장 완료!'})
+
+@app.route("/write/", methods=["GET"])
+def comment_get():
+    comment_list = list(db.create.find({},{'_id':False}))
+    return jsonify({'comment':comment_list})
+# write주석끝
 
 
 # -----------------------------
