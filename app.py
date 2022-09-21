@@ -145,7 +145,6 @@ def create():
         if token_receive is not None:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
             user_info = db.user.find_one({"id": payload["id"]})
-            print(user_info, payload["id"])
 
             return render_template('create.html', user_info=user_info)
         else:
@@ -160,8 +159,8 @@ def postCreate():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # 포스팅하기
-        nickname = db.users.find_one({"id": payload["id"]})
-        print(payload['id'])
+        userInfo = db.user.find_one({"id": payload["id"]})
+
         categoryReceive = request.form["categoryGive"]
         titleReceive = request.form["titleGive"]
         contentReceive = request.form["contentGive"]
@@ -169,11 +168,10 @@ def postCreate():
         createList = list(db.create.find({}, {'_id': False}))
         count = len(createList) + 1
 
-        print(nickname)
-
         doc = {
             "num": count,
-            "nickname": payload["id"],
+            "id": userInfo["id"],
+            "nickname": userInfo["nickname"],
             "category": categoryReceive,
             "title": titleReceive,
             "content": contentReceive
