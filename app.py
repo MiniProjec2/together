@@ -69,26 +69,36 @@ def python():
     post_list = list(db.create.find({'category': 'Python'}))
     return render_template('python.html', post_list = post_list)
 
+@app.route('/visualbasic')
+def visualbasic():
+    post_list = list(db.create.find({'category': 'Visual Basic'}))
+    return render_template('visualbasic.html', post_list = post_list)
+
+@app.route('/javascript')
+def javascript():
+    post_list = list(db.create.find({'category': 'JavaScript'}))
+    return render_template('javascript.html', post_list = post_list)
+
+
+
 # detail주석
 @app.route('/detail/<keyword>')
 def detail(keyword):
     post = db.create.find_one({'_id':ObjectId(keyword)})
-    return render_template('detail.html', post=post)
+    comments = list(db.create.find({'_id':ObjectId(keyword)}))
+    return render_template('detail.html', post=post, comments=comments[0])
 
 @app.route("/detail/comment", methods=["POST"])
 def comment_post():
     id_receive = request.form['id_give']
     comment_receive = request.form['comment_give']
-    post = db.create.find_one({'_id': id_receive})
-
-    comment_list = post.comment
     dic = {
         'nickname': nickname_receive,
-        'comment': comment_receive
+        'comment': comment_receive,
     }
     comment_list.append(dic)
     db.create.update_one({'_id':id_receive},{'$set':{'comment':comment_list}})
-    return jsonify({'msg': '코멘트 저장 완료!'})
+    return redirect(f'detail/{id_receive}')
 
 @app.route("/detail/", methods=["GET"])
 def comment_get():

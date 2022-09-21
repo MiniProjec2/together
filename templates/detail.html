@@ -3529,6 +3529,18 @@
 							<p>{{ post['content'] }}</p>
                             <textarea name="message" id="comment" placeholder="코멘트"></textarea>
                             <input onclick="save_comment(post['_id'])" type="submit" value="저장" class="primary" />
+							{% for comment in comments %}
+								<div class="col">
+									<a href="/detail/{{ post._id }}" alt="">
+									<div class="card h-100">
+										<div class="card-body">
+											<h5 class="card-title">{{ comment.nickname }}</h5>
+											<p class="card-text">{{ comment.comment }}</p>
+										</div>
+									</div>
+									</a>
+								</div>
+							{% endfor %}
 						</div>
 					</div>
 
@@ -3594,7 +3606,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '/detail/comment',
-                    data: {comment_give:"comment", id_give: id},
+                    data: {comment_give:comment, id_give: id},
 
                     success: function (response) {
                         alert(response['msg'])
