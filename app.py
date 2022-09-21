@@ -72,7 +72,7 @@ def comment_post():
         'comment': comment_receive
     }
     comment_list.append(dic)
-    db.create.update(dic)
+    db.create.update_one({'_id':id_receive},{'$set':{'comment':comment_list}})
     return jsonify({'msg': '코멘트 저장 완료!'})
 
 @app.route("/detail/", methods=["GET"])
