@@ -49,6 +49,21 @@ def api_login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
+@app.route('/c')
+def c():
+    post_list = list(db.create.find({'category': 'C'}))
+    return render_template('c.html', post_list = post_list)
+
+@app.route('/java')
+def java():
+    post_list = list(db.create.find({'category': 'JAVA'}))
+    return render_template('java.html', post_list = post_list)
+
+@app.route('/cplusplus')
+def cplusplus():
+    post_list = list(db.create.find({'category': 'C++'}))
+    return render_template('cplusplus.html', post_list = post_list)
+
 @app.route('/python')
 def python():
     post_list = list(db.create.find({'category': 'Python'}))
