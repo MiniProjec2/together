@@ -114,22 +114,22 @@ def userRegister():
 
 
 # 게시글 작성 페이지 로드시 로그인 여부 확인 및 로그인시 작성자 닉네임 불러오기
-@app.route('/category/create/new', methods=['GET'])
+@app.route('/postIndex', methods=['GET'])
 def postIndex():
     token_receive = request.cookies.get('mytoken')
+    print(token_receive)
 
     if token_receive is not None:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload["id"]})
         print(user_info, payload["id"])
 
-
-        return render_template('postIndex.html', user_info=user_info, status=False)
+        return render_template('postIndex.html', user_info=user_info)
     else:
-        return render_template('login.html', status=True)
+        return redirect("/login")
 
-#게시글 작성 저장
-@app.route('/category/create/new', methods=['POST'])
+# 게시글 작성 저장
+@app.route('/postIndex', methods=['POST'])
 def postIndexCreate():
     token_receive = request.cookies.get('mytoken')
     try:
@@ -155,8 +155,9 @@ def postIndexCreate():
         }
         db.postIndex.insert_one(doc)
         return jsonify({"result": "success", 'msg': '포스팅 성공'})
+
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+        return redirect(url_for("login"))
 
 
 if __name__ == '__main__':
