@@ -114,8 +114,8 @@ def userRegister():
 
 
 # 게시글 작성 페이지 로드시 로그인 여부 확인 및 로그인시 작성자 닉네임 불러오기
-@app.route('/postIndex', methods=['GET'])
-def postIndex():
+@app.route('/create', methods=['GET'])
+def create():
     token_receive = request.cookies.get('mytoken')
     print(token_receive)
 
@@ -124,13 +124,13 @@ def postIndex():
         user_info = db.user.find_one({"id": payload["id"]})
         print(user_info, payload["id"])
 
-        return render_template('postIndex.html', user_info=user_info)
+        return render_template('create.html', user_info=user_info)
     else:
         return redirect("/login")
 
 # 게시글 작성 저장
-@app.route('/postIndex', methods=['POST'])
-def postIndexCreate():
+@app.route('/create', methods=['POST'])
+def postCreate():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -141,7 +141,7 @@ def postIndexCreate():
         titleReceive = request.form["titleGive"]
         contentReceive = request.form["contentGive"]
 
-        createList = list(db.postIndex.find({}, {'_id': False}))
+        createList = list(db.create.find({}, {'_id': False}))
         count = len(createList) + 1
 
         print(nickname)
@@ -153,7 +153,7 @@ def postIndexCreate():
             "title": titleReceive,
             "content": contentReceive
         }
-        db.postIndex.insert_one(doc)
+        db.create.insert_one(doc)
         return jsonify({"result": "success", 'msg': '포스팅 성공'})
 
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
