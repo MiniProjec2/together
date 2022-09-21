@@ -48,9 +48,12 @@ def api_login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
-@app.route('/generic', methods=['GET'])
-def detail():
-    return render_template('generic.html')
+@app.route('/generic_python')
+def generic_python():
+    post_list = list(db.postIndex.find({'category': 'Python'}))
+    return render_template('generic_python.html', post_list = post_list)
+
+
 
 # -----------------------------
 # 회원가입 페이지(join.html)을 불러올 때 textInfo Array에 Input Text 값을 넣어서 보내줌

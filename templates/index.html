@@ -3532,7 +3532,7 @@
                         <span class="image">
                             <img src="https://images.ctfassets.net/3prze68gbwl1/asset-17suaysk1qa1jhl/d276861783e0ab0ffab32afcdc84d597/python-socket-programming.jpg" alt="">
                         </span>
-                        <a href="/generic">
+                        <a href="/generic_python">
                             <h2>Python</h2>
                         </a>
                     </article>
@@ -4417,14 +4417,37 @@
                 });
 
         })(jQuery);
+
+        function login_popup() {
+            var popupWidth = 800;
+            var popupHeight = 600;
+
+            var popupX = Math.round(window.screenX + (window.outerWidth / 2) - (popupWidth / 2));
+            var popupY = Math.round(window.screenY + (window.outerHeight / 2) - (popupHeight / 2));
+
+
+            window.open('/login','_blank', 'width=' + popupWidth + ',height=' + popupHeight + ',left='+ popupX + ', top='+ popupY)
+        }
+
+        function join_popup() {
+            var popupWidth = 800;
+            var popupHeight = 600;
+
+            var popupX = Math.round(window.screenX + (window.outerWidth / 2) - (popupWidth / 2));
+            var popupY = Math.round(window.screenY + (window.outerHeight / 2) - (popupHeight / 2));
+
+
+            window.open('/join','_blank', 'width=' + popupWidth + ',height=' + popupHeight + ',left='+ popupX + ', top='+ popupY)
+        }
+
     </script>
     <nav id="menu">
         <div class="inner">
             <h2>Menu</h2>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a id="login" href="/login" onclick="window.open(this.href, '_blank', 'width = 800, height = 600'); return false;">Login</a></li>
-                <li><a id="join" href="/join" onclick="window.open(this.href, '_blank', 'width = 800, height = 600'); return false;">Join</a></li>
+                <li><a id="login" href="#" onclick="login_popup()">Login</a></li>
+                <li><a id="join" href="#" onclick="join_popup()">Join</a></li>
             </ul>
         </div><a class="close" href="#menu">Close</a>
     </nav>
