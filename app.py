@@ -117,16 +117,17 @@ def userRegister():
 @app.route('/create', methods=['GET'])
 def create():
     token_receive = request.cookies.get('mytoken')
-    print(token_receive)
+    try:
+        if token_receive is not None:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            user_info = db.user.find_one({"id": payload["id"]})
+            print(user_info, payload["id"])
 
-    if token_receive is not None:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.user.find_one({"id": payload["id"]})
-        print(user_info, payload["id"])
-
-        return render_template('create.html', user_info=user_info)
-    else:
-        return render_template("login.html")
+            return render_template('create.html', user_info=user_info)
+        else:
+            return render_template("login.html")
+    except jwt.ExpiredSignatureError:
+        return redirect('/login')
 
 # 게시글 작성 저장
 @app.route('/create', methods=['POST'])
