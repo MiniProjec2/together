@@ -3512,7 +3512,7 @@
 							<ul>
 								<li><a href="/">Home</a></li>
 								<li><a href="/login">Login</a></li>
-								<li><a href="/create">Write</a></li>
+								<li><a href="/create">detail</a></li>
 								<li><a href="/python">Python</a></li>
 								<li><a href="/c">C</a></li>
 								<li><a href="/java">Java</a></li>
@@ -3593,8 +3593,9 @@
                 comment = $('#comment').val()
                 $.ajax({
                     type: 'POST',
-                    url: '/write/comment',
-                    data: {comment_give: comment, id_give: id},
+                    url: '/detail/comment',
+                    data: {comment_give:"comment", id_give: id},
+
                     success: function (response) {
                         alert(response['msg'])
                     }
@@ -3604,7 +3605,7 @@
             function show_order() {
                 $.ajax({
                     type: 'GET',
-                    url: '/write/',
+                    url: '/detail/',
                     data: {},
                     success: function (response) {
                         let rows = response['comment']

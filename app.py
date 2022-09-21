@@ -54,36 +54,32 @@ def python():
     post_list = list(db.create.find({'category': 'Python'}))
     return render_template('python.html', post_list = post_list)
 
-# write주석
-@app.route('/write/<keyword>')
-def write(keyword):
+# detail주석
+@app.route('/detail/<keyword>')
+def detail(keyword):
     post = db.create.find_one({'_id':ObjectId(keyword)})
-    print(post)
-    return render_template('write.html', post=post)
+    return render_template('detail.html', post=post)
 
-@app.route("/write/comment", methods=["POST"])
+@app.route("/detail/comment", methods=["POST"])
 def comment_post():
     id_receive = request.form['id_give']
     comment_receive = request.form['comment_give']
     post = db.create.find_one({'_id': id_receive})
 
-    
-    print(post)
     comment_list = post.comment
     dic = {
         'nickname': nickname_receive,
         'comment': comment_receive
     }
     comment_list.append(dic)
-    print(dic)
     db.create.update(dic)
     return jsonify({'msg': '코멘트 저장 완료!'})
 
-@app.route("/write/", methods=["GET"])
+@app.route("/detail/", methods=["GET"])
 def comment_get():
     comment_list = list(db.create.find({},{'_id':False}))
     return jsonify({'comment':comment_list})
-# write주석끝
+# detail주석끝
 
 
 # -----------------------------
@@ -152,7 +148,6 @@ def create():
         if token_receive is not None:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
             user_info = db.user.find_one({"id": payload["id"]})
-            print(user_info, payload["id"])
 
             return render_template('create.html', user_info=user_info)
         else:
@@ -167,8 +162,8 @@ def postCreate():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # 포스팅하기
-        nickname = db.users.find_one({"id": payload["id"]})
-        print(payload['id'])
+        userInfo = db.user.find_one({"id": payload["id"]})
+
         categoryReceive = request.form["categoryGive"]
         titleReceive = request.form["titleGive"]
         contentReceive = request.form["contentGive"]
@@ -177,9 +172,11 @@ def postCreate():
         count = len(createList) + 1
 
         comment = []
+
         doc = {
             "num": count,
-            "nickname": payload["id"],
+            "id": userInfo["id"],
+            "nickname": userInfo["nickname"],
             "category": categoryReceive,
             "title": titleReceive,
             "content": contentReceive,
