@@ -109,25 +109,51 @@ def userRegister():
 
     return jsonify({'msg': '저장 완료!'})
 
-@app.route('/category/create')
+
+# 게시글 작성 페이지 로드시 로그인 여부 확인 및 로그인시 작성자 닉네임 불러오기
+@app.route('/category/create/new', methods=['GET'])
 def postIndex():
-    return render_template('postIndex.html')
+    token_receive = request.cookies.get('mytoken')
 
-@app.route("/category/create", methods=["POST"])
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload["id"]})
+        print(user_info, payload["id"])
+
+
+        return render_template('postIndex.html', user_info=user_info, status=False)
+    else:
+        return render_template('login.html', status=True)
+
+#게시글 작성 저장
+@app.route('/category/create/new', methods=['POST'])
 def postIndexCreate():
-    categoryReceive = request.form['categoryGive']
-    titleReceive = request.form['titleGive']
-    contentReceive = request.form['contentGive']
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 포스팅하기
+        nickname = db.users.find_one({"id": payload["id"]})
+        print(payload['id'])
+        categoryReceive = request.form["categoryGive"]
+        titleReceive = request.form["titleGive"]
+        contentReceive = request.form["contentGive"]
 
-    doc = {
-        'category':categoryReceive,
-        'title' :titleReceive,
-        'content' :contentReceive
-    }
+        createList = list(db.postIndex.find({}, {'_id': False}))
+        count = len(createList) + 1
 
-    db.postIndex.insert_one(doc)
+        print(nickname)
 
-    return jsonify({'msg': '저장 완료!'})
+        doc = {
+            "num": count,
+            "nickname": payload["id"],
+            "category": categoryReceive,
+            "title": titleReceive,
+            "content": contentReceive
+        }
+        db.postIndex.insert_one(doc)
+        return jsonify({"result": "success", 'msg': '포스팅 성공'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 if __name__ == '__main__':
