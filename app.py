@@ -126,7 +126,7 @@ def create():
 
         return render_template('create.html', user_info=user_info)
     else:
-        return redirect("/login")
+        return render_template("login.html")
 
 # 게시글 작성 저장
 @app.route('/create', methods=['POST'])
