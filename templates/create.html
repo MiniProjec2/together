@@ -13,19 +13,22 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
-    <title>글 작성</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
-          rel="stylesheet">
+    <title>게시글 작성</title>
 
     <style>
-        * {
-            font-family: 'Noto Serif KR', serif;
-        }
+
+        @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+        @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700,900");
+
 
         .title {
             display: flex;
             justify-content: center;
+            margin: 20px;
+            font-family: "Roboto", sans-serif;
+            font-size: 40px;
+            font-weight: bold;
+            color: #0d6efd;
         }
 
         .inputBoxs {
@@ -90,7 +93,9 @@
 <body>
 
 <div class="title">
-    <h1>글 작성</h1>
+    <a>
+        <h1 class="title">게시글 작성</h1><br>
+    </a>
 </div>
 
 <div class="inputBoxs">
@@ -130,7 +135,7 @@
         <textarea class="form-control" id="content" rows="10" placeholder="본문을 입력하세요."></textarea>
 
         <button onclick="createCreate()" type="button" class="btn btn-primary">저장</button>
-        <button onclick="location.href='/'" type="button" class="btn btn-primary">닫기</button>
+        <button onclick="location.href='/'" type="button" class="btn btn-outline-primary">닫기</button>
     </div>
 
 </div>
