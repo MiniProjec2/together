@@ -85,28 +85,23 @@ def javascript():
 @app.route('/detail/<keyword>')
 def detail(keyword):
     post = db.create.find_one({'_id':ObjectId(keyword)})
-    comments = list(db.create.find({'_id':ObjectId(keyword)}))
-    return render_template('detail.html', post=post, comments=comments[0])
+    return render_template('detail.html', post=post)
 
 @app.route("/detail/comment", methods=["POST"])
 def comment_post():
     id_receive = request.form['id_give']
     comment_receive = request.form['comment_give']
     post = db.create.find_one({'_id': ObjectId(id_receive)})
-    print(post)
     comment_list = post['comment']
     dic = {
         # 'nickname': nickname_receive,
         'comment': comment_receive,
     }
     comment_list.append(dic)
-    db.create.update_one({'_id':id_receive},{'$set':{'comment':comment_list}})
-    return redirect(f'detail/{id_receive}')
+    db.create.update_one({'_id':ObjectId(id_receive)},{'$set':{'comment':comment_list}})
+    return jsonify({'msg': '댓글 등록 되었습니다.'})
 
-@app.route("/detail/", methods=["GET"])
-def comment_get():
-    comment_list = list(db.create.find({},{'_id':False}))
-    return jsonify({'comment':comment_list})
+
 # detail주석끝
 
 
