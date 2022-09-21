@@ -74,7 +74,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/category/post/create',
+                url: '/category/create/new',
                 data: {categoryGive: category, titleGive: title, contentGive: content},
                 success: function (response) {
                     alert(response["msg"])
@@ -83,25 +83,24 @@
             });
         }
 
-        //작성자 정보 db 회원 정보에서 불러오기
-        function showName() {
-            $.ajax({
-                type: "GET",
-                url: "/join",
-                data: {},
-                success: function (response) {
-                    let rows = response['names']
-                    for (let i = 0 ; i < rows.length; i++) {
-                        let name = rows[i]['name']
+        function postIndexCreate() {
+            let category = $('#category').val()
+            let title = $('#title').val()
+            let content = $('#content').val()
 
-                        let temp_html = ` <div class="input-group mb-2">
-                                            <span class="input-group-text" id="basic-addon1">작성자</span>
-                                            <type class=border>{{ name }}</type>
-                                        </div>`
-                        $('#name').append(temp_html)
-                    }
+            $.ajax({
+                type: "POST",
+                url: "/category/create/new",
+                data: {
+                    categoryGive: category,
+                    titleGive: title,
+                    contentGive: content
+                },
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
                 }
-            });
+            })
         }
     </script>
 </head>
@@ -134,8 +133,8 @@
     </div>
 
     <div class="input-group mb-2">
-        <span class="input-group-text" id="name">작성자</span>
-        <type class=border>닉네임 들어갈 자리</type>
+        <span class="input-group-text">작성자</span>
+        <type class=border id="name">{{ user_info.nickname }}</type>
     </div>
 
 </div>
