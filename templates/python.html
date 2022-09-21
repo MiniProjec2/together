@@ -3506,7 +3506,7 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/login">Login</a></li>
-            <li><a href="/create">Write</a></li>
+            <li><a href="/create">detail</a></li>
             <li><a href="/python">Python</a></li>
             <li><a href="/c">C</a></li>
             <li><a href="/java">Java</a></li>
@@ -3531,12 +3531,14 @@
 {#                    **#}
                     {% set post_category = post.category %}
                     <div class="col">
+                        <a href="/detail/{{ post._id }}" alt="">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">{{ post_title }}</h5>
                                 <p class="card-text">{{ post_category }}</p>
                             </div>
                         </div>
+                        </a>
                     </div>
                 {% endfor %}
             </div>
