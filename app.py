@@ -56,7 +56,7 @@ def c():
 
 @app.route('/java')
 def java():
-    post_list = list(db.create.find({'category': 'JAVA'}))
+    post_list = list(db.create.find({'category': 'Java'}))
     return render_template('java.html', post_list = post_list)
 
 @app.route('/cplusplus')
