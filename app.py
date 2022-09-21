@@ -48,10 +48,10 @@ def api_login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
-@app.route('/generic_python')
-def generic_python():
+@app.route('/python')
+def python():
     post_list = list(db.postIndex.find({'category': 'Python'}))
-    return render_template('generic_python.html', post_list = post_list)
+    return render_template('python.html', post_list = post_list)
 
 
 
