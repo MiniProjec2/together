@@ -3539,7 +3539,7 @@
                     {% set post_title = post.title %}
                     {% set post_content = post.content %}
 {#                    **#}
-                    {% set post_id = post._id %}
+                    {% set post_id = post._id| string %}
 {#                    **#}
                     {% set post_category = post.category %}
                     <div class="col">
