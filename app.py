@@ -44,7 +44,7 @@ def api_login():
             'id': id_receive,
             'exp': datetime.utcnow() + timedelta(seconds=60*60*1)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
         return jsonify({'result': 'success', 'token': token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
@@ -77,8 +77,11 @@ def detail(keyword):
 def comment_post():
     id_receive = request.form['id_give']
     comment_receive = request.form['comment_give']
+    post = db.create.find_one({'_id': ObjectId(id_receive)})
+    print(post)
+    comment_list = post['comment']
     dic = {
-        'nickname': nickname_receive,
+        # 'nickname': nickname_receive,
         'comment': comment_receive,
     }
     comment_list.append(dic)
