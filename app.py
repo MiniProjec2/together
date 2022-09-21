@@ -54,6 +54,18 @@ def python():
     post_list = list(db.create.find({'category': 'Python'}))
     return render_template('python.html', post_list = post_list)
 
+@app.route('/visualbasic')
+def visualbasic():
+    post_list = list(db.create.find({'category': 'Visual Basic'}))
+    return render_template('visualbasic.html', post_list = post_list)
+
+@app.route('/javascript')
+def javascript():
+    post_list = list(db.create.find({'category': 'JavaScript'}))
+    return render_template('javascript.html', post_list = post_list)
+
+
+
 # detail주석
 @app.route('/detail/<keyword>')
 def detail(keyword):
