@@ -3528,7 +3528,7 @@
 							<h1>{{ post['title'] }}</h1>
 							<p>{{ post['content'] }}</p>
                             <textarea name="message" id="comment" placeholder="코멘트"></textarea>
-                            <input onclick="save_comment()" type="submit" value="저장" class="primary" />
+                            <input onclick="save_comment(post['_id'])" type="submit" value="저장" class="primary" />
 						</div>
 					</div>
 
@@ -3589,11 +3589,12 @@
 
 		<!-- Scripts -->
         <script>
-            function save_comment() {
+            function save_comment(id) {
+                comment = $('#comment').val()
                 $.ajax({
                     type: 'POST',
                     url: '/write/comment',
-                    data: {comment_give:"comment"},
+                    data: {comment_give: comment, id_give: id},
                     success: function (response) {
                         alert(response['msg'])
                     }
