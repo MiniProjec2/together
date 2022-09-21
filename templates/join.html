@@ -165,7 +165,7 @@
 
             } else if (nickname == '') {
                 alert("닉네임을 입력하세요")
-                return;;
+                return;
             }
 
             $.ajax({
@@ -174,7 +174,7 @@
                 data: {id_give: id, pw_give: pw, nickname_give: nickname, git_give: git},
                 success: function (response) {
                     alert(response['msg'])
-                    window.location.reload()
+                    window.location.replace('/login')
                 }
             });
 
@@ -190,6 +190,7 @@
             var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
             return regExp.test(asValue);
         }
+
 
     </script>
 </head>
@@ -233,7 +234,7 @@
 
         <div class="butns">
             <button onclick="sign_up()" type="button" class="btn btn-outline-dark">회원가입</button>
-            <button onclick="close()" type="button" class="btn btn-outline-dark">닫기</button>
+            <button onclick="self.close()" type="button" class="btn btn-outline-dark">닫기</button>
         </div>
 
     </div>
