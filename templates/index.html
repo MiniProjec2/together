@@ -4,7 +4,19 @@
     <title>Together</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta property="og:title" content="Together"/>
+    <meta property="og:description" content="스터디, 프로젝트 팀 구하기"/>
+    <meta property="og:image"
+          content="https://blog.herdwatch.com/hubfs/Facebook_Together-we-can-logo.png"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
         @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700,900");
         /*!
         * Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com
@@ -15,6 +27,14 @@
             html5up.net | @ajlkn
             Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
         */
+        .title {
+            margin: 0;
+            padding: 0;
+            font-family: "Roboto", sans-serif;
+            font-size: 65px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
 
         html,
         body,
@@ -3483,8 +3503,8 @@
             <div class="inner">
 
                 <!-- Logo -->
-                <a href="/" class="logo">
-                    <span class="symbol"></span><span class="title">Together</span>
+                <a href="/">
+                    <h1 class="title">Together</h1><br>
                 </a>
 
                 <!-- Nav -->
@@ -3504,8 +3524,8 @@
         <div id="main">
             <div class="inner">
                 <header>
-                    <h1>개발자를 위한 스터디, 프로젝트</h1>
-                    <p>진정한 개발자가 되기 위한 첫 걸음. 팀 구하는 것이 먼저입니다.</p>
+                    <h1>진정한 개발자가 되기 위한 첫 걸음, 팀 구하는 것이 먼저입니다.</h1><br>
+                    <p>끊임없이 변하는 세상에서 가장 중요한 기술은 안목이다. 누구에게나 옳은 말은 아닐 것이다. 하지만 새로운 것을 알아보는 능력, 다른 이의 작업을 알아보는 능력 또는 어떤 일을 할 수 있는 여러 방법을 비교하고 당신, 팀, 프로젝트, 조직에 가장 적합한 것을 고를 수 있는 능력은 어마어마하게 소중하다. 내가 아는 이 대부분은 이에 능하지 못했고, 내가 아는 대부분의 리더는 이 부분에선 정말 엉망이었다. 누군가 당신에게 이걸 해야 한다고 말하는 일이나 블로그에서 읽은 것 또는 모두가 하는 걸 그대로 해내는 건 쉽다. 목적과 모든 면을 고려하여 살펴보고 자신에게 가장 잘 맞는 최적의 선택을 하는게 훨씬 어렵다. 누구나 선택을 해야 하지만, 어떤 이들은 평가 자체를 두려워하여 아무거나 골라버리거나 남들이 하는 대로 따라가는 일도 흔하다.</p>
                 </header>
                 <section class="tiles">
                     <article class="style1">
@@ -3587,18 +3607,26 @@
                 <section>
                     <h2>Follow</h2>
                     <ul class="icons">
-                        <li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a>
+                        <li>
+                            <a href="https://github.com/hanghaemini" class="icon brands style2 fa-github"><span class="label">GitHub</span>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGuWrfLHbMlkXKF8uj7G7Bs98zmNZVW26YgRmGktRA3w&s" alt="" style="width:100%;height:100%">
+                            </a>
                         </li>
-                        <li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a>
+                        <li>
+                            <a href="https://www.naver.com/" class="icon brands style2 fa-500px"><span class="label">Naver</span>
+                                <img src="https://uptempom.com/wp-content/uploads/2021/01/naver-icon-style-1.png" alt="" style="width:100%;height:100%">
+                            </a>
                         </li>
-                        <li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a>
+                        <li>
+                            <a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span>
+                                <img src="https://cdn0.iconfinder.com/data/icons/basic-uses-symbol-vol-1/100/Call_Phone_Cell_Ring_Pick_up-512.png" alt="" style="width:100%;height:100%">
+                            </a>
                         </li>
-                        <li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a>
+                        <li>
+                            <a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span>
+                                <img src="https://cdn0.iconfinder.com/data/icons/apple-apps/100/Apple_Mail-512.png" alt="" style="width:100%;height:100%">
+                            </a>
                         </li>
-                        <li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
-                        <li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
-                        <li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
-                        <li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
                     </ul>
                 </section>
                 <ul class="copyright">
