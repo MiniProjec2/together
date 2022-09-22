@@ -3615,6 +3615,10 @@
 			}
             function save_comment(id) {
                 comment = $('#comment').val()
+                if (comment == "") {
+                    return alert('댓글 내용을 입력하세요')
+                }
+
                 $.ajax({
                     type: 'POST',
                     url: '/detail/comment',
