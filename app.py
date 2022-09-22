@@ -16,10 +16,12 @@ SECRET_KEY = 'SPARTA'
 ## HTML을 주는 부분
 @app.route('/')
 def home():
-    return render_template('index.html')
+    token_receive = request.cookies.get('mytoken')
+    return render_template('index.html', istoken = bool(token_receive))
 
 @app.route('/login')
 def login():
+    token_receive = request.cookies.get('mytoken')
     textInfo = [
         {"text": "아이디",
          "id": "user_id"
@@ -28,7 +30,7 @@ def login():
          "id": "user_pw"
          },
     ]
-    return render_template('login.html', textInfo=textInfo)
+    return render_template('login.html', textInfo=textInfo, istoken=bool(token_receive))
 
 @app.route('/login/api', methods=['POST'])
 def api_login():
@@ -51,33 +53,39 @@ def api_login():
 
 @app.route('/c')
 def c():
+    token_receive = request.cookies.get('mytoken')
     post_list = list(db.create.find({'category': 'C'}))
-    return render_template('c.html', post_list = post_list)
+    return render_template('c.html', post_list = post_list, token=bool(token_receive))
 
 @app.route('/java')
 def java():
+    token_receive = request.cookies.get('mytoken')
     post_list = list(db.create.find({'category': 'Java'}))
-    return render_template('java.html', post_list = post_list)
+    return render_template('java.html', post_list = post_list, token=bool(token_receive))
 
 @app.route('/cplusplus')
 def cplusplus():
+    token_receive = request.cookies.get('mytoken')
     post_list = list(db.create.find({'category': 'C++'}))
-    return render_template('cplusplus.html', post_list = post_list)
+    return render_template('cplusplus.html', post_list = post_list, token=bool(token_receive))
 
 @app.route('/python')
 def python():
+    token_receive = request.cookies.get('mytoken')
     post_list = list(db.create.find({'category': 'Python'}))
-    return render_template('python.html', post_list = post_list)
+    return render_template('python.html', post_list = post_list, token=bool(token_receive))
 
 @app.route('/visualbasic')
 def visualbasic():
+    token_receive = request.cookies.get('mytoken')
     post_list = list(db.create.find({'category': 'Visual Basic'}))
-    return render_template('visualbasic.html', post_list = post_list)
+    return render_template('visualbasic.html', post_list = post_list, token=bool(token_receive))
 
 @app.route('/javascript')
 def javascript():
+    token_receive = request.cookies.get('mytoken')
     post_list = list(db.create.find({'category': 'JavaScript'}))
-    return render_template('javascript.html', post_list = post_list)
+    return render_template('javascript.html', post_list = post_list, token=bool(token_receive))
 
 
 
@@ -174,7 +182,7 @@ def create():
 
             return render_template('create.html', user_info=user_info)
         else:
-            return render_template("login.html")
+            return redirect("/login")
     except jwt.ExpiredSignatureError:
         return redirect('/login')
 
