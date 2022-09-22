@@ -92,22 +92,29 @@ def javascript():
 # detail주석
 @app.route('/detail/<keyword>')
 def detail(keyword):
+    token_receive = request.cookies.get('mytoken')
     post = db.create.find_one({'_id':ObjectId(keyword)})
-    return render_template('detail.html', post=post)
+    return render_template('detail.html', post=post, token=bool(token_receive))
 
 @app.route("/detail/comment", methods=["POST"])
 def comment_post():
-    id_receive = request.form['id_give']
-    comment_receive = request.form['comment_give']
-    post = db.create.find_one({'_id': ObjectId(id_receive)})
-    comment_list = post['comment']
-    dic = {
-        # 'nickname': nickname_receive,
-        'comment': comment_receive,
-    }
-    comment_list.append(dic)
-    db.create.update_one({'_id':ObjectId(id_receive)},{'$set':{'comment':comment_list}})
-    return jsonify({'msg': '댓글 등록 되었습니다.'})
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload["id"]})
+        id_receive = request.form['id_give']
+        comment_receive = request.form['comment_give']
+        post = db.create.find_one({'_id': ObjectId(id_receive)})
+        comment_list = post['comment']
+        dic = {
+            'nickname': user_info['nickname'],
+            'comment': comment_receive,
+        }
+        comment_list.append(dic)
+        db.create.update_one({'_id':ObjectId(id_receive)},{'$set':{'comment':comment_list}})
+        return jsonify({'msg': '댓글 등록 되었습니다.'})
+    else:
+        return jsonify({'msg': '로그인 후 이용해 주세요'})
 
 
 # detail주석끝
