@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, redirect
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 from bson.objectid import ObjectId
@@ -35,7 +35,7 @@ def api_login():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     
-    pw_hash = hashlib.sha256(pw_receive.encode('utf8')).hexdigest()
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
     
     result = db.user.find_one({'id': id_receive, 'pw': pw_hash})
     
