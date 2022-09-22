@@ -205,21 +205,21 @@ def postCreate():
         categoryReceive = request.form["categoryGive"]
         titleReceive = request.form["titleGive"]
         contentReceive = request.form["contentGive"]
-        if titleReceive or contentReceive == "":
+        if titleReceive == "" or contentReceive == "":
             return jsonify({'msg': '내용을 모두 채워주세요.'})
+        else:
+            comment = []
 
-        comment = []
-
-        doc = {
-            "id": userInfo["id"],
-            "nickname": userInfo["nickname"],
-            "category": categoryReceive,
-            "title": titleReceive,
-            "content": contentReceive,
-            "comment": comment
-        }
-        db.create.insert_one(doc)
-        return jsonify({"result": "success", 'msg': '포스팅 성공'})
+            doc = {
+                "id": userInfo["id"],
+                "nickname": userInfo["nickname"],
+                "category": categoryReceive,
+                "title": titleReceive,
+                "content": contentReceive,
+                "comment": comment
+            }
+            db.create.insert_one(doc)
+            return jsonify({"result": "success", 'msg': '포스팅 성공'})
 
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("login"))
