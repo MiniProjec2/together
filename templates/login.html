@@ -112,28 +112,41 @@
 </head>
 <body>
 <div class="wrap">
-    <header class="head">
-        <h1 class="main_title">Together</h1>
-        <p class="sub_title">로그인을 해주세요.</p>
-    </header>
+    {% if istoken == False %}
+        <header class="head">
+            <h1 class="main_title">Together</h1>
+            <p class="sub_title">로그인을 해주세요.</p>
+        </header>
+        <main>
+            <section class="login">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="userid" placeholder="id">
+                    <label for="userid">아이디</label>
+                    <p id="help-id-login"></p>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="userpw" placeholder="Password">
+                    <label for="userpw">비밀번호</label>
+                    <p id="help-password-login"></p>
+                </div>
+                <div class="btns">
+                    <button type="button" class="btn btn-outline-primary" onclick="login()">로그인</button>
+                    <button type="button" class="btn btn-primary" onclick='window.location.href = "/join"'>회원가입</button>
+                </div>
+            </section>
+        </main>
+    {% else %}
     <main>
-        <section class="login">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="userid" placeholder="id">
-                <label for="userid">아이디</label>
-                <p id="help-id-login"></p>
-            </div>
-            <div class="form-floating">
-                <input type="password" class="form-control" id="userpw" placeholder="Password">
-                <label for="userpw">비밀번호</label>
-                <p id="help-password-login"></p>
-            </div>
-            <div class="btns">
-                <button type="button" class="btn btn-outline-primary" onclick="login()">로그인</button>
-                <button type="button" class="btn btn-primary" onclick='window.location.href = "/join"'>회원가입</button>
-            </div>
-        </section>
+        <h1>Logout</h1>
+        <script>
+            $.removeCookie('mytoken')
+            alert('Logout')
+            window.close()
+            opener.location.reload()
+        </script>
     </main>
+    {% endif %}
+        
 </div>
 
 </body>

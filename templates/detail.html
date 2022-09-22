@@ -3511,8 +3511,12 @@
 						<h2>Menu</h2>
 							<ul>
 								<li><a href="/">Home</a></li>
-								<li><a href="/login">Login</a></li>
-								<li><a href="/create">detail</a></li>
+								{% if token == false %}
+										<li><a href= "#" id="login" onclick="login_popup()">Login</a></li>
+								{% else %}
+										<li><a href= "#" id="login" onclick="login_popup()">Logout</a></li>
+								{% endif %}
+								<li><a href="/create">Write</a></li>
 								<li><a href="/python">Python</a></li>
 								<li><a href="/c">C</a></li>
 								<li><a href="/java">Java</a></li>
@@ -3601,6 +3605,14 @@
 
 		<!-- Scripts -->
         <script>
+			function login_popup() {
+				var popupWidth = 800;
+				var popupHeight = 600;
+		
+				var popupX = Math.round(window.screenX + (window.outerWidth / 2) - (popupWidth / 2));
+				var popupY = Math.round(window.screenY + (window.outerHeight / 2) - (popupHeight / 2));
+				window.open('/login','_blank', 'width=' + popupWidth + ',height=' + popupHeight + ',left='+ popupX + ', top='+ popupY)
+			}
             function save_comment(id) {
                 comment = $('#comment').val()
                 $.ajax({
